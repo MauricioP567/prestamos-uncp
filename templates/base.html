@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es" class="h-full">
 <head>
@@ -5,23 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}UNCP Préstamos{% endblock %}</title>
 
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CDN con configuración custom -->
+  <!-- CDN de Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            brand: {
-              50: '#EFF6FF', 100: '#DBEAFE', 200: '#BFDBFE', 300: '#93C5FD',
-              400: '#60A5FA', 500: '#3B82F6', 600: '#2563EB', 700: '#1D4ED8',
-              800: '#1E40AF', 900: '#1E3A8A',
-            },
+            brand: { 50: '#EFF6FF', 100: '#DBEAFE', 200: '#BFDBFE', 300: '#93C5FD', 400: '#60A5FA', 500: '#3B82F6', 600: '#2563EB', 700: '#1D4ED8', 800: '#1E40AF', 900: '#1E3A8A' },
             ink: { 900: '#0F172A', 800: '#1E293B', 700: '#334155', 500: '#64748B' },
           },
           fontFamily: {
@@ -37,70 +31,35 @@
     };
   </script>
 
-  
+  <!-- CSS embebido para que el CDN procese el @apply -->
   <style type="text/tailwindcss">
-    /* ---------- Componentes base ---------- */
-    .form-input {
-      @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm
-             text-slate-800 shadow-sm transition-all duration-200
-             placeholder:text-slate-400
-             focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 focus:outline-none;
-    }
-    .form-input:disabled {
-      @apply bg-slate-100 cursor-not-allowed;
-    }
-
-    .btn {
-      @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5
-             text-sm font-semibold transition-all duration-200 focus:outline-none
-             focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
-    }
+    .form-input { @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm transition-all duration-200 placeholder:text-slate-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 focus:outline-none; }
+    .form-input:disabled { @apply bg-slate-100 cursor-not-allowed; }
+    .btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed; }
     .btn-primary   { @apply btn bg-brand-600 text-white shadow-md hover:bg-brand-700 hover:shadow-lg focus:ring-brand-500; }
     .btn-secondary { @apply btn bg-white text-ink-800 border border-slate-200 hover:bg-slate-50 focus:ring-slate-300; }
     .btn-danger    { @apply btn bg-rose-600 text-white hover:bg-rose-700 focus:ring-rose-500; }
-
     .badge { @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold; }
     .badge-success { @apply bg-emerald-100 text-emerald-700; }
     .badge-info    { @apply bg-brand-100 text-brand-700; }
     .badge-warning { @apply bg-amber-100 text-amber-700; }
     .badge-danger  { @apply bg-rose-100 text-rose-700; }
     .badge-neutral { @apply bg-slate-100 text-slate-600; }
-
-    .card {
-      @apply rounded-2xl border border-slate-200 bg-white shadow-card;
-    }
-
-    /* ---------- Sidebar ---------- */
-    .sidebar-link {
-      @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium
-             text-slate-300 transition-all duration-150
-             hover:bg-white/10 hover:text-white;
-    }
-    .sidebar-link.active {
-      @apply bg-white/15 text-white shadow-inner;
-    }
-
-    /* ---------- Animaciones ---------- */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    .card { @apply rounded-2xl border border-slate-200 bg-white shadow-card; }
+    .sidebar-link { @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-300 transition-all duration-150 hover:bg-white/10 hover:text-white; }
+    .sidebar-link.active { @apply bg-white/15 text-white shadow-inner; }
+    .glass-sidebar { background: linear-gradient(180deg, #0F172A 0%, #1E293B 100%); }
+    
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
     .animate-fade-in-up { animation: fadeInUp .45s ease-out both; }
     .animate-delay-100 { animation-delay: .1s; }
     .animate-delay-200 { animation-delay: .2s; }
     .animate-delay-300 { animation-delay: .3s; }
-
-    /* ---------- Scrollbar ---------- */
+    
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-
-    /* ---------- Glass sidebar ---------- */
-    .glass-sidebar {
-      background: linear-gradient(180deg, #0F172A 0%, #1E293B 100%);
-    }
   </style>
-  
 
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>

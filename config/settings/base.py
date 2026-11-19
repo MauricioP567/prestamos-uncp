@@ -17,9 +17,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
-    # terceros
     "widget_tweaks",
-    # locales
+    # Locales
     "apps.core",
     "apps.accounts",
     "apps.equipos",
