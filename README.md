@@ -31,17 +31,7 @@ Reemplaza el registro manual en cuadernos físicos con una plataforma segura, au
 ### Formulario de préstamo — caso inválido (validaciones cruzadas)
 ![Formulario inválido](docs/capturas/06-formulario-invalido.png)
 
-### Django Admin — acciones masivas
-![Admin acciones](docs/capturas/07-admin-acciones.png)
 
-### Middleware en acción (logs en consola)
-![Middleware logs](docs/capturas/08-middleware-logs.png)
-
-### Cookies de sesión en DevTools (HttpOnly + timeout 30 min)
-![Cookies DevTools](docs/capturas/09-cookies-devtools.png)
-
-### Vista protegida (docente solo ve sus préstamos)
-![Vista protegida](docs/capturas/10-vista-protegida.png)
 
 ---
 
