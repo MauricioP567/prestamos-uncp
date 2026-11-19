@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="flex min-h-screen">
+  {% include "partials/sidebar.html" %}
+  <div class="flex flex-1 flex-col lg:ml-64">
+    {% include "partials/topbar.html" with page_title="Dashboard" %}
+    {% include "partials/messages.html" %}
+
+    <main class="flex-1 p-6 space-y-6">
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div class="card p-5 animate-fade-in-up">
+          <div class="flex items-center justify-between">
+            <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Total equipos</p>
+            <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-100 text-brand-600">
+              <i data-lucide="box" class="h-4 w-4"></i>
+            </div>
+          </div>
+          <p class="mt-3 font-display text-3xl font-bold text-ink-900">{{ total_equipos }}</p>
+        </div>
+        <div class="card p-5 animate-fade-in-up animate-delay-100">
+          <div class="flex items-center justify-between">
+            <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Operativos</p>
+            <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600">
+              <i data-lucide="check-circle-2" class="h-4 w-4"></i>
+            </div>
+          </div>
+          <p class="mt-3 font-display text-3xl font-bold text-ink-900">{{ equipos_operativos }}</p>
+        </div>
+        <div class="card p-5 animate-fade-in-up animate-delay-200">
+          <div class="flex items-center justify-between">
+            <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Préstamos activos</p>
+            <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-100 text-sky-600">
+              <i data-lucide="clipboard-list" class="h-4 w-4"></i>
+            </div>
+          </div>
+          <p class="mt-3 font-display text-3xl font-bold text-ink-900">{{ prestamos_activos }}</p>
+        </div>
+        <div class="card p-5 animate-fade-in-up animate-delay-300">
+          <div class="flex items-center justify-between">
+            <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Vencidos</p>
+            <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-rose-100 text-rose-600">
+              <i data-lucide="alert-triangle" class="h-4 w-4"></i>
+            </div>
+          </div>
+          <p class="mt-3 font-display text-3xl font-bold text-ink-900">{{ prestamos_vencidos }}</p>
+        </div>
+      </div>
+
+      <div class="card p-6">
+        <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+          <h2 class="font-display text-lg font-semibold text-ink-800">Últimos préstamos</h2>
+          <a href="{% url 'prestamos:lista' %}" class="text-sm font-medium text-brand-600 hover:text-brand-700">Ver todos →</a>
+        </div>
+        <ul class="mt-2 divide-y divide-slate-100">
+          {% for p in ultimos %}
+            <li class="flex items-center justify-between py-3">
+              <div class="flex items-center gap-3">
+                <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-500">
+                  <i data-lucide="package" class="h-4 w-4"></i>
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-ink-800">{{ p.equipo.nombre }}</p>
+                  <p class="text-xs text-slate-500">{{ p.equipo.codigo_patrimonial }} · {{ p.docente.get_full_name }}</p>
+                </div>
+              </div>
+              <span class="badge {{ p.estado|badge_class }}">{{ p.get_estado_display }}</span>
+            </li>
+          {% empty %}
+            <li class="py-10 text-center text-sm text-slate-500">Sin préstamos registrados.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </main>
+  </div>
+</div>
+{% endblock %}

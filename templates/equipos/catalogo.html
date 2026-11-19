@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="flex min-h-screen">
+  {% include "partials/sidebar.html" %}
+  <div class="flex flex-1 flex-col lg:ml-64">
+    {% include "partials/topbar.html" with page_title="Catálogo de equipos" %}
+    {% include "partials/messages.html" %}
+
+    <main class="flex-1 p-6 space-y-6">
+      <!-- Filtros -->
+      <form method="get" class="card p-5">
+        <div class="grid gap-3 md:grid-cols-4">
+          <div class="md:col-span-2">
+            <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">Buscar</label>
+            <input type="text" name="q" value="{{ q }}" placeholder="Código, nombre o categoría..."
+                   class="form-input">
+          </div>
+          <div>
+            <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">Laboratorio</label>
+            <select name="lab" class="form-input">
+              <option value="">Todos</option>
+              {% for l in laboratorios %}
+                <option value="{{ l.pk }}" {% if lab == l.pk|stringformat:"s" %}selected{% endif %}>{{ l.nombre }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="flex items-end gap-2">
+            <div class="flex-1">
+              <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">Estado</label>
+              <select name="estado" class="form-input">
+                <option value="">Todos</option>
+                <option value="operativo" {% if estado == 'operativo' %}selected{% endif %}>Operativo</option>
+                <option value="mantenimiento" {% if estado == 'mantenimiento' %}selected{% endif %}>Mantenimiento</option>
+                <option value="baja" {% if estado == 'baja' %}selected{% endif %}>Baja</option>
+              </select>
+            </div>
+            <button class="btn-primary"><i data-lucide="search" class="h-4 w-4"></i></button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Grid -->
+      <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+        {% for equipo in page_obj %}
+          <a href="{% url 'equipos:detalle' equipo.pk %}" class="card group p-5 transition-all hover:-translate-y-1 hover:shadow-lift">
+            <div class="flex items-start justify-between">
+              <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-600 group-hover:bg-brand-100 group-hover:text-brand-600 transition">
+                <i data-lucide="cpu" class="h-5 w-5"></i>
+              </div>
+              <span class="badge {{ equipo.estado|badge_class }}">{{ equipo.get_estado_display }}</span>
+            </div>
+            <p class="mt-4 text-xs font-mono text-slate-500">{{ equipo.codigo_patrimonial }}</p>
+            <h3 class="mt-1 font-display text-lg font-semibold text-ink-900">{{ equipo.nombre }}</h3>
+            <p class="text-sm text-slate-500">{{ equipo.marca }} · {{ equipo.modelo }}</p>
+            <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-3 text-xs">
+              <span class="text-slate-500">{{ equipo.laboratorio.nombre }}</span>
+              <span class="font-semibold {% if equipo.stock_disponible > 0 %}text-emerald-600{% else %}text-rose-600{% endif %}">
+                {{ equipo.stock_disponible }}/{{ equipo.stock_total }} disp.
+              </span>
+            </div>
+          </a>
+        {% empty %}
+          <div class="col-span-full card p-16 text-center">
+            <i data-lucide="package-x" class="mx-auto h-12 w-12 text-slate-300"></i>
+            <p class="mt-4 text-sm text-slate-500">No se encontraron equipos.</p>
+          </div>
+        {% endfor %}
+      </div>
+
+      {% include "partials/pagination.html" %}
+    </main>
+  </div>
+</div>
+{% endblock %}

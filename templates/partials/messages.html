@@ -1,0 +1,23 @@
+{% if messages %}
+<div class="space-y-2 px-6 pt-4">
+  {% for message in messages %}
+    {% if message.tags == 'success' %}
+      {% with cls="bg-emerald-50 border-emerald-200 text-emerald-800" icon="check-circle" %}
+      {% include "partials/_alert.html" with message=message cls=cls icon=icon %}
+      {% endwith %}
+    {% elif message.tags == 'error' %}
+      {% with cls="bg-rose-50 border-rose-200 text-rose-800" icon="x-circle" %}
+      {% include "partials/_alert.html" with message=message cls=cls icon=icon %}
+      {% endwith %}
+    {% elif message.tags == 'warning' %}
+      {% with cls="bg-amber-50 border-amber-200 text-amber-800" icon="alert-triangle" %}
+      {% include "partials/_alert.html" with message=message cls=cls icon=icon %}
+      {% endwith %}
+    {% else %}
+      {% with cls="bg-brand-50 border-brand-200 text-brand-800" icon="info" %}
+      {% include "partials/_alert.html" with message=message cls=cls icon=icon %}
+      {% endwith %}
+    {% endif %}
+  {% endfor %}
+</div>
+{% endif %}

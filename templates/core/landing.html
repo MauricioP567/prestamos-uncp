@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}UNCP · Sistema de Préstamos de Laboratorio{% endblock %}
+
+{% block body %}
+<div class="relative min-h-screen overflow-hidden bg-ink-900">
+  <!-- Fondo decorativo -->
+  <div class="absolute inset-0 opacity-40"
+       style="background-image: radial-gradient(circle at 20% 20%, #1e40af33 0, transparent 45%),
+                              radial-gradient(circle at 80% 60%, #0ea5e933 0, transparent 50%);"></div>
+  <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+
+  <div class="relative z-10">
+    <!-- Nav -->
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-600 font-display text-lg font-bold text-white shadow-lg">U</div>
+        <div>
+          <p class="font-display text-white text-lg leading-none font-semibold">UNCP Labs</p>
+          <p class="text-xs text-slate-400">Gestión de Préstamos</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="{% url 'equipos:catalogo' %}" class="text-sm font-medium text-slate-300 hover:text-white transition">Catálogo</a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'core:dashboard' %}" class="btn-primary text-sm">Ir al panel</a>
+        {% else %}
+          <a href="{% url 'accounts:login' %}" class="btn-primary text-sm">
+            <i data-lucide="log-in" class="h-4 w-4"></i> Iniciar sesión
+          </a>
+        {% endif %}
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="mx-auto max-w-7xl px-6 pt-16 pb-24 lg:pt-24">
+      <div class="grid items-center gap-16 lg:grid-cols-2">
+        <div class="animate-fade-in-up">
+          <span class="badge bg-brand-500/15 text-brand-300 border border-brand-500/30">
+            <span class="h-1.5 w-1.5 rounded-full bg-brand-400"></span>
+            Sistema Oficial · UNCP
+          </span>
+          <h1 class="mt-6 font-display text-5xl font-bold leading-tight text-white lg:text-6xl">
+            Préstamo de equipos,<br>
+            <span class="bg-gradient-to-r from-brand-400 to-sky-400 bg-clip-text text-transparent">
+              con trazabilidad total.
+            </span>
+          </h1>
+          <p class="mt-6 max-w-lg text-lg text-slate-400">
+            Digitaliza el proceso completo: solicitudes, validaciones en tiempo real,
+            devoluciones y auditoría. Diseñado para la Facultad de Ingeniería de Sistemas.
+          </p>
+          <div class="mt-10 flex flex-wrap items-center gap-4">
+            <a href="{% url 'accounts:login' %}" class="btn-primary px-6 py-3 text-base">
+              <i data-lucide="arrow-right" class="h-5 w-5"></i>
+              Acceder al sistema
+            </a>
+            <a href="{% url 'equipos:catalogo' %}" class="btn-secondary bg-white/5 border-white/10 text-white hover:bg-white/10 px-6 py-3 text-base">
+              Explorar catálogo
+            </a>
+          </div>
+          <!-- Stats -->
+          <div class="mt-14 grid grid-cols-3 gap-6 border-t border-white/10 pt-8">
+            <div>
+              <p class="font-display text-3xl font-bold text-white">{{ total_equipos }}</p>
+              <p class="mt-1 text-xs uppercase tracking-wide text-slate-500">Equipos registrados</p>
+            </div>
+            <div>
+              <p class="font-display text-3xl font-bold text-white">{{ total_prestamos }}</p>
+              <p class="mt-1 text-xs uppercase tracking-wide text-slate-500">Préstamos gestionados</p>
+            </div>
+            <div>
+              <p class="font-display text-3xl font-bold text-white">5</p>
+              <p class="mt-1 text-xs uppercase tracking-wide text-slate-500">Laboratorios</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta visual -->
+        <div class="relative animate-fade-in-up animate-delay-200">
+          <div class="absolute -inset-4 rounded-3xl bg-gradient-to-tr from-brand-600/30 to-sky-400/20 blur-2xl"></div>
+          <div class="relative rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl shadow-lift">
+            <div class="flex items-center justify-between border-b border-white/10 pb-4">
+              <div class="flex items-center gap-2">
+                <span class="h-3 w-3 rounded-full bg-rose-400"></span>
+                <span class="h-3 w-3 rounded-full bg-amber-400"></span>
+                <span class="h-3 w-3 rounded-full bg-emerald-400"></span>
+              </div>
+              <p class="text-xs text-slate-400">dashboard.uncp.edu.pe</p>
+            </div>
+            <div class="mt-6 space-y-3">
+              <div class="flex items-center justify-between rounded-xl bg-white/5 p-3">
+                <div class="flex items-center gap-3">
+                  <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-500/20 text-brand-300">
+                    <i data-lucide="laptop" class="h-4 w-4"></i>
+                  </div>
+                  <div>
+                    <p class="text-sm text-white">Laptop HP ProBook</p>
+                    <p class="text-xs text-slate-500">UNCP-0032 · Lab. A</p>
+                  </div>
+                </div>
+                <span class="badge-success">Operativo</span>
+              </div>
+              <div class="flex items-center justify-between rounded-xl bg-white/5 p-3">
+                <div class="flex items-center gap-3">
+                  <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-500/20 text-amber-300">
+                    <i data-lucide="camera" class="h-4 w-4"></i>
+                  </div>
+                  <div>
+                    <p class="text-sm text-white">Cámara Sony Alpha</p>
+                    <p class="text-xs text-slate-500">UNCP-0118 · Lab. C</p>
+                  </div>
+                </div>
+                <span class="badge-warning">Mantenim.</span>
+              </div>
+              <div class="flex items-center justify-between rounded-xl bg-white/5 p-3">
+                <div class="flex items-center gap-3">
+                  <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-sky-500/20 text-sky-300">
+                    <i data-lucide="projector" class="h-4 w-4"></i>
+                  </div>
+                  <div>
+                    <p class="text-sm text-white">Proyector Epson</p>
+                    <p class="text-xs text-slate-500">UNCP-0076 · Lab. B</p>
+                  </div>
+                </div>
+                <span class="badge-success">Operativo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+{% endblock %}
